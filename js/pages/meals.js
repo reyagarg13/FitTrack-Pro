@@ -11,7 +11,7 @@ function initMeals(){
     meals = stored;
   } else {
     meals = JSON.parse(JSON.stringify(mealsData));
-    saveMeals(meals);
+    // Don't save empty meals initially
   }
 }
 

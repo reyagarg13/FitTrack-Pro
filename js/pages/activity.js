@@ -53,11 +53,14 @@ function renderList(filter='all'){
 
 function initData(){
   const stored = loadActivities();
-  if(stored && stored.length > 0){
+  if(stored){
     activities = stored;
   } else {
     activities = activitiesData.slice();
-    persist();
+    // Only persist if there's actual data
+    if(activities.length > 0){
+      persist();
+    }
   }
 }
 
