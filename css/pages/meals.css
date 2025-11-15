@@ -1,4 +1,80 @@
 /* Meals page styles */
-.meal-column{min-height:260px}
-.meal-column .meal-list li{display:flex;justify-content:space-between;align-items:center}
-.meal-column .meal-list li button{background:transparent;border:0;color:var(--danger)}
+.meal-column{
+  min-height:300px;
+  border:2px solid #f1f5f9;
+  transition:border-color 300ms, box-shadow 300ms;
+}
+.meal-column:hover{
+  border-color:#06b6d4;
+  box-shadow:0 8px 24px rgba(6,182,212,0.08);
+}
+.meal-column h2{
+  color:#0f172a;
+  border-bottom:2px solid #e2e8f0;
+  padding-bottom:0.5rem;
+  margin-bottom:1rem;
+}
+.meal-column[data-meal="Breakfast"] h2{border-bottom-color:#fbbf24}
+.meal-column[data-meal="Lunch"] h2{border-bottom-color:#f97316}
+.meal-column[data-meal="Dinner"] h2{border-bottom-color:#8b5cf6}
+
+.meal-list{min-height:120px;max-height:300px;overflow-y:auto}
+.meal-list::-webkit-scrollbar{width:6px}
+.meal-list::-webkit-scrollbar-thumb{background:#cbd5e1;border-radius:3px}
+.meal-list::-webkit-scrollbar-track{background:#f1f5f9}
+
+.meal-list li{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:0.6rem 0;
+  border-bottom:1px dashed #e2e8f0;
+  transition:background 200ms;
+}
+.meal-list li:hover{background:#f8fafc}
+.meal-list li:last-child{border-bottom:none}
+
+.meal-list li span:first-child{
+  font-weight:500;
+  color:#334155;
+}
+.meal-list li span:last-child{
+  display:flex;
+  align-items:center;
+  gap:0.5rem;
+  color:#64748b;
+  font-size:0.9rem;
+}
+
+.meal-list li button{
+  background:transparent;
+  border:0;
+  color:var(--danger);
+  cursor:pointer;
+  padding:0.25rem 0.5rem;
+  border-radius:4px;
+  transition:background 200ms;
+  font-size:0.85rem;
+}
+.meal-list li button:hover{
+  background:#fee2e2;
+  color:#dc2626;
+}
+
+.meal-form{
+  border-top:2px dashed #e2e8f0;
+  padding-top:1rem;
+  margin-top:1rem;
+}
+
+#total-calories{
+  color:#06b6d4;
+  font-size:2rem;
+  animation:pulse-calories 500ms ease-out;
+}
+
+@keyframes pulse-calories {
+  0%{transform:scale(1)}
+  50%{transform:scale(1.1)}
+  100%{transform:scale(1)}
+}

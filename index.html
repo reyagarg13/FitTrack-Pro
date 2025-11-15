@@ -3,7 +3,8 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>FitTrack Pro</title>
+    <title>FitTrack Pro - Personal Fitness & Wellness Dashboard</title>
+    <meta name="description" content="Track your fitness goals, activities, meals, and wellness insights with FitTrack Pro" />
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="./style.css" />
@@ -16,6 +17,14 @@
     <link rel="stylesheet" href="./css/components/progressCircle.css" />
   </head>
   <body class="bg-slate-50 text-slate-800">
+    <!-- Loading indicator -->
+    <div id="loading-screen" class="fixed inset-0 bg-white z-50 flex items-center justify-center">
+      <div class="text-center">
+        <div class="w-16 h-16 bg-gradient-to-tr from-teal-400 to-cyan-500 rounded-full mx-auto mb-4 animate-pulse"></div>
+        <h2 class="text-xl font-semibold text-slate-700">FitTrack Pro</h2>
+        <p class="text-sm text-slate-500 mt-2">Loading your fitness dashboard...</p>
+      </div>
+    </div>
     <!-- Navbar component will be loaded here -->
     <div id="navbar-root"></div>
 
@@ -107,20 +116,27 @@
         <div class="flex items-center justify-between mb-4">
           <h1 class="text-2xl font-semibold">Insights & Summary</h1>
           <div>
-            <button id="download-summary" class="btn-primary mr-2">Download Summary</button>
-            <button id="reset-dashboard" class="btn-danger">Reset Dashboard</button>
+            <button id="download-summary" class="btn-primary mr-2">📥 Download Summary</button>
+            <button id="reset-dashboard" class="btn-danger">🔄 Reset Dashboard</button>
           </div>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div class="bg-white p-4 rounded shadow">
-            <h2 class="font-medium mb-3">Weekly Activities</h2>
-            <div id="weekly-activities" class="w-full h-40 flex items-end gap-3"></div>
+          <div class="insights-chart-container">
+            <h2>Weekly Activities (minutes)</h2>
+            <div id="weekly-activities"></div>
           </div>
 
-          <div class="bg-white p-4 rounded shadow">
-            <h2 class="font-medium mb-3">Weekly Calories</h2>
-            <div id="weekly-calories" class="w-full h-40 flex items-end gap-3"></div>
+          <div class="insights-chart-container">
+            <h2>Weekly Calories Consumed</h2>
+            <div id="weekly-calories"></div>
+          </div>
+        </div>
+        
+        <div class="mt-6 bg-white p-6 rounded-lg shadow">
+          <h2 class="text-lg font-semibold mb-3">Quick Stats</h2>
+          <div id="quick-stats" class="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <!-- Stats will be populated by JS -->
           </div>
         </div>
       </section>

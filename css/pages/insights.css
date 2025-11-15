@@ -1,4 +1,66 @@
 /* Insights page styles */
-.insights-chart-bar{width:100%;background:#e6eef2;border-radius:8px;display:flex;align-items:flex-end}
-.insights-chart-bar div{background:linear-gradient(180deg,#06b6d4,#0891b2);border-radius:6px;width:28px}
-.insights-chart-label{font-size:0.8rem;color:#475569;text-align:center;margin-top:6px}
+.insights-chart-container{
+  background:white;
+  padding:1.5rem;
+  border-radius:10px;
+  box-shadow:0 4px 12px rgba(2,6,23,0.06);
+}
+.insights-chart-container h2{
+  font-size:1.125rem;
+  font-weight:600;
+  color:#0f172a;
+  margin-bottom:1.5rem;
+  padding-bottom:0.5rem;
+  border-bottom:2px solid #e2e8f0;
+}
+.insights-chart-bar{
+  width:100%;
+  background:#f1f5f9;
+  border-radius:8px;
+  display:flex;
+  align-items:flex-end;
+  padding:0.5rem;
+  gap:0.5rem;
+}
+.insights-chart-bar > div{
+  flex:1;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  cursor:pointer;
+  transition:transform 200ms;
+}
+.insights-chart-bar > div:hover{
+  transform:translateY(-4px);
+}
+.insights-chart-bar > div > div:first-child{
+  background:linear-gradient(180deg,#06b6d4,#0891b2);
+  border-radius:6px 6px 0 0;
+  width:100%;
+  max-width:40px;
+  transition:background 300ms;
+  position:relative;
+}
+.insights-chart-bar > div:hover > div:first-child{
+  background:linear-gradient(180deg,#0891b2,#06b6d4);
+}
+.insights-chart-label{
+  font-size:0.75rem;
+  color:#475569;
+  text-align:center;
+  margin-top:0.5rem;
+  font-weight:500;
+}
+
+#download-summary{
+  transition:all 200ms;
+}
+#download-summary:hover{
+  transform:translateY(-2px);
+  box-shadow:0 8px 20px rgba(6,182,212,0.2);
+}
+
+#reset-dashboard:hover{
+  background:#dc2626;
+  transform:translateY(-2px);
+}

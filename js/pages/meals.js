@@ -15,9 +15,21 @@ function renderMeals(){
   ['Breakfast','Lunch','Dinner'].forEach(mealType=>{
     const ul = document.querySelector(`[data-meal-list="${mealType}"]`);
     ul.innerHTML = '';
+    
+    if(!meals[mealType] || meals[mealType].length === 0){
+      ul.innerHTML = '<li style="justify-content:center;color:#94a3b8;font-style:italic;border:none">No meals added</li>';
+      return;
+    }
+    
     meals[mealType].forEach(m=>{
       const li = document.createElement('li');
-      li.innerHTML = `<span>${m.name}</span><span>${m.calories} kcal <button data-id="${m.id}" data-meal="${mealType}" class="ml-2">Remove</button></span>`;
+      li.innerHTML = `
+        <span>${m.name}</span>
+        <span>
+          <strong>${m.calories}</strong> kcal 
+          <button data-id="${m.id}" data-meal="${mealType}" class="ml-2" title="Remove meal">🗑️</button>
+        </span>
+      `;
       ul.appendChild(li);
     });
   });
@@ -27,7 +39,11 @@ function renderMeals(){
 function recalcTotal(){
   let total = 0;
   Object.values(meals).forEach(arr=> arr.forEach(m=> total += Number(m.calories)));
-  document.getElementById('total-calories').textContent = `${total} kcal`;
+  const el = document.getElementById('total-calories');
+  // trigger animation
+  el.style.animation = 'none';
+  setTimeout(()=> el.style.animation = '', 10);
+  el.textContent = `${total} kcal`;
 }
 
 function attachEvents(){
@@ -37,12 +53,25 @@ function attachEvents(){
       const mealType = form.dataset.mealForm;
       const name = form.name.value.trim();
       const calories = Number(form.calories.value);
-      if(!name || !calories || calories<=0) return;
+      
+      // Validation
+      if(!name || name.length < 2){
+        alert('Please enter a valid meal name (at least 2 characters).');
+        return;
+      }
+      if(!calories || calories<=0 || calories > 5000){
+        alert('Calories must be between 1 and 5000.');
+        return;
+      }
+      
       const item = { id: uid('m'), name, calories };
       meals[mealType].push(item);
       saveMeals(meals);
       renderMeals();
       form.reset();
+      
+      // Focus back to name input for quick entry
+      form.name.focus();
     });
   });
 

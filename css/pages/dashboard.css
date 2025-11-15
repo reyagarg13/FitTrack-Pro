@@ -1,11 +1,52 @@
 /* Dashboard specific styles */
-#dashboard-cards .card{min-height:140px}
-.progress-circle-wrapper{display:flex;flex-direction:column;align-items:center}
-/* SVG-based progress with animated stroke-dashoffset */
-.progress-svg{width:110px;height:110px;display:block}
-.progress-svg .progress-bg{stroke:#eef2f7}
-.progress-svg .progress-fg{stroke:url(#grad); stroke-linecap:round; transform-origin:55px 55px; transform:rotate(-90deg); transition:stroke-dashoffset 700ms cubic-bezier(.2,.9,.2,1)}
-.progress-value-svg{font-weight:700;fill:#0f172a;font-size:14px}
-.progress-label{margin-top:6px}
+#dashboard-cards{
+  animation:fadeInUp 500ms ease-out;
+}
+#dashboard-cards .card{
+  min-height:180px;
+  transition:transform 300ms, box-shadow 300ms;
+  border:2px solid #f1f5f9;
+}
+#dashboard-cards .card:hover{
+  transform:translateY(-4px);
+  box-shadow:0 12px 28px rgba(6,182,212,0.15);
+  border-color:#06b6d4;
+}
 
+.progress-circle-wrapper{display:flex;flex-direction:column;align-items:center}
+
+/* SVG-based progress with animated stroke-dashoffset */
+.progress-svg{
+  width:110px;
+  height:110px;
+  display:block;
+  filter:drop-shadow(0 2px 4px rgba(6,182,212,0.1));
+}
+.progress-svg .progress-bg{stroke:#eef2f7;stroke-width:10}
+.progress-svg .progress-fg{
+  stroke:url(#grad); 
+  stroke-linecap:round; 
+  transform-origin:55px 55px; 
+  transform:rotate(-90deg); 
+  transition:stroke-dashoffset 700ms cubic-bezier(.2,.9,.2,1);
+}
+.progress-value-svg{
+  font-weight:700;
+  fill:#0f172a;
+  font-size:16px;
+  font-family:Inter, system-ui;
+}
+.progress-label{margin-top:6px}
 .progress-value{font-weight:700}
+
+#live-clock{
+  font-size:1.5rem;
+  font-weight:600;
+  color:#06b6d4;
+  text-shadow:0 2px 4px rgba(6,182,212,0.1);
+}
+
+@keyframes fadeInUp {
+  from{opacity:0;transform:translateY(20px)}
+  to{opacity:1;transform:translateY(0)}
+}

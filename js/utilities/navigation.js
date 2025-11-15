@@ -10,8 +10,56 @@ export async function loadNavbar() {
   const html = await res.text();
   document.getElementById('navbar-root').innerHTML = html;
   attachNavHandlers();
+  attachHelpButton();
   // update badge after navbar load
   updateBadge();
+}
+
+function attachHelpButton(){
+  const helpBtn = document.getElementById('help-btn');
+  if(helpBtn){
+    helpBtn.addEventListener('click', ()=> {
+      const helpContent = `
+        <div class="space-y-4">
+          <div>
+            <h3 class="font-semibold text-lg mb-2">⌨️ Keyboard Shortcuts</h3>
+            <ul class="space-y-1 text-sm">
+              <li><kbd class="px-2 py-1 bg-slate-100 rounded">Alt + 1</kbd> - Dashboard</li>
+              <li><kbd class="px-2 py-1 bg-slate-100 rounded">Alt + 2</kbd> - Activity Log</li>
+              <li><kbd class="px-2 py-1 bg-slate-100 rounded">Alt + 3</kbd> - Meal Planner</li>
+              <li><kbd class="px-2 py-1 bg-slate-100 rounded">Alt + 4</kbd> - Insights</li>
+              <li><kbd class="px-2 py-1 bg-slate-100 rounded">Esc</kbd> - Close Modal</li>
+              <li><kbd class="px-2 py-1 bg-slate-100 rounded">Tab</kbd> - Navigate Modal</li>
+            </ul>
+          </div>
+          <div>
+            <h3 class="font-semibold text-lg mb-2">💡 Quick Tips</h3>
+            <ul class="space-y-1 text-sm text-slate-600">
+              <li>• All data is saved automatically to your browser</li>
+              <li>• Click on charts to see detailed values</li>
+              <li>• Download your summary from Insights page</li>
+              <li>• Filter activities by time of day</li>
+              <li>• Total calories update in real-time</li>
+            </ul>
+          </div>
+          <div>
+            <h3 class="font-semibold text-lg mb-2">📊 Features</h3>
+            <ul class="space-y-1 text-sm text-slate-600">
+              <li>✅ Track steps, calories, and water intake</li>
+              <li>✅ Log activities with duration and calories</li>
+              <li>✅ Plan meals for breakfast, lunch, and dinner</li>
+              <li>✅ View weekly insights and statistics</li>
+              <li>✅ Export data as JSON file</li>
+            </ul>
+          </div>
+        </div>
+      `;
+      openModal({
+        title: '❓ Help & Information',
+        body: helpContent
+      });
+    });
+  }
 }
 
 function attachNavHandlers(){
@@ -19,6 +67,9 @@ function attachNavHandlers(){
     btn.addEventListener('click', ()=>{
       const target = btn.dataset.target;
       showPage(target);
+      // Update active state
+      document.querySelectorAll('.nav-btn').forEach(b=> b.classList.remove('active'));
+      btn.classList.add('active');
     });
   });
 }
@@ -85,6 +136,12 @@ export function showPage(pageId){
 export function initRoute(){
   const id = window.location.hash.replace('#','') || 'page-dashboard';
   showPage(id);
+  // Set initial active state
+  const activeBtn = document.querySelector(`.nav-btn[data-target="${id}"]`);
+  if(activeBtn){
+    document.querySelectorAll('.nav-btn').forEach(b=> b.classList.remove('active'));
+    activeBtn.classList.add('active');
+  }
 }
 
 // Listen for storage updates to refresh badge
