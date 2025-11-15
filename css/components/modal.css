@@ -1,0 +1,6 @@
+/* Modal component styles */
+.ft-modal-overlay{background:rgba(2,6,23,0.45);backdrop-filter:blur(4px)}
+.ft-modal{max-width:640px;transform-origin:center;transition:transform 280ms cubic-bezier(.2,.9,.2,1),opacity 220ms}
+.ft-modal-overlay .ft-modal{transform:scale(.98);opacity:0}
+.ft-modal-overlay:not(.hidden) .ft-modal{transform:scale(1);opacity:1}
+.ft-modal .ft-modal-actions button{padding:0.5rem 0.75rem;border-radius:6px}

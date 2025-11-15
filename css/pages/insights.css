@@ -1,0 +1,4 @@
+/* Insights page styles */
+.insights-chart-bar{width:100%;background:#e6eef2;border-radius:8px;display:flex;align-items:flex-end}
+.insights-chart-bar div{background:linear-gradient(180deg,#06b6d4,#0891b2);border-radius:6px;width:28px}
+.insights-chart-label{font-size:0.8rem;color:#475569;text-align:center;margin-top:6px}

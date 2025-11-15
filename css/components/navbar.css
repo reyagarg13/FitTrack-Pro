@@ -1,0 +1,3 @@
+/* Navbar tiny tweaks */
+.nav-btn{background:transparent;border:1px solid transparent;padding:0.4rem 0.6rem}
+.nav-btn:hover{background:#f8fafc;border-radius:6px}

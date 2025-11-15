@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>FitTrack Pro</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="./style.css" />
+    <link rel="stylesheet" href="./css/pages/dashboard.css" />
+    <link rel="stylesheet" href="./css/pages/activity.css" />
+    <link rel="stylesheet" href="./css/pages/meals.css" />
+    <link rel="stylesheet" href="./css/pages/insights.css" />
+    <link rel="stylesheet" href="./css/components/modal.css" />
+    <link rel="stylesheet" href="./css/components/navbar.css" />
+    <link rel="stylesheet" href="./css/components/progressCircle.css" />
+  </head>
+  <body class="bg-slate-50 text-slate-800">
+    <!-- Navbar component will be loaded here -->
+    <div id="navbar-root"></div>
+
+    <main class="max-w-6xl mx-auto p-4">
+      <!-- Sections (pages) -->
+      <section id="page-dashboard" class="page hidden">
+        <!-- Dashboard header -->
+        <div class="flex items-center justify-between mb-4">
+          <h1 class="text-2xl font-semibold">Daily Wellness Overview</h1>
+          <div class="text-right">
+            <div id="live-clock" class="text-lg font-mono"></div>
+            <div class="text-sm text-slate-500">Local time</div>
+          </div>
+        </div>
+
+        <div id="dashboard-cards" class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <!-- Cards inserted by dashboard.js -->
+        </div>
+      </section>
+
+      <section id="page-activity" class="page hidden">
+        <div class="flex items-center justify-between mb-4">
+          <h1 class="text-2xl font-semibold">Activity Log</h1>
+          <div>
+            <button id="open-add-activity" class="btn-primary">Add Activity</button>
+          </div>
+        </div>
+
+        <div class="mb-4">
+          <label class="mr-2">Filter:</label>
+          <select id="activity-filter" class="px-2 py-1 border rounded">
+            <option value="all">All</option>
+            <option value="Morning">Morning</option>
+            <option value="Afternoon">Afternoon</option>
+            <option value="Evening">Evening</option>
+          </select>
+        </div>
+
+        <ul id="activity-list" class="space-y-2">
+          <!-- Activities rendered here -->
+        </ul>
+      </section>
+
+      <section id="page-meals" class="page hidden">
+        <div class="flex items-center justify-between mb-4">
+          <h1 class="text-2xl font-semibold">Meal Planner</h1>
+          <div class="text-sm text-slate-500">Calories update live</div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div class="meal-column bg-white p-4 rounded shadow" data-meal="Breakfast">
+            <h2 class="text-lg font-medium mb-2">Breakfast</h2>
+            <ul class="meal-list" data-meal-list="Breakfast"></ul>
+            <form class="mt-3 meal-form" data-meal-form="Breakfast">
+              <input name="name" placeholder="Meal name" class="input" required />
+              <input name="calories" placeholder="Calories" type="number" class="input mt-2" required />
+              <button class="btn-secondary mt-2" type="submit">Add</button>
+            </form>
+          </div>
+
+          <div class="meal-column bg-white p-4 rounded shadow" data-meal="Lunch">
+            <h2 class="text-lg font-medium mb-2">Lunch</h2>
+            <ul class="meal-list" data-meal-list="Lunch"></ul>
+            <form class="mt-3 meal-form" data-meal-form="Lunch">
+              <input name="name" placeholder="Meal name" class="input" required />
+              <input name="calories" placeholder="Calories" type="number" class="input mt-2" required />
+              <button class="btn-secondary mt-2" type="submit">Add</button>
+            </form>
+          </div>
+
+          <div class="meal-column bg-white p-4 rounded shadow" data-meal="Dinner">
+            <h2 class="text-lg font-medium mb-2">Dinner</h2>
+            <ul class="meal-list" data-meal-list="Dinner"></ul>
+            <form class="mt-3 meal-form" data-meal-form="Dinner">
+              <input name="name" placeholder="Meal name" class="input" required />
+              <input name="calories" placeholder="Calories" type="number" class="input mt-2" required />
+              <button class="btn-secondary mt-2" type="submit">Add</button>
+            </form>
+          </div>
+        </div>
+
+        <div class="mt-6 bg-white p-4 rounded shadow flex items-center justify-between">
+          <div class="text-lg">Total Daily Calories:</div>
+          <div id="total-calories" class="font-bold text-2xl">0 kcal</div>
+        </div>
+      </section>
+
+      <section id="page-insights" class="page hidden">
+        <div class="flex items-center justify-between mb-4">
+          <h1 class="text-2xl font-semibold">Insights & Summary</h1>
+          <div>
+            <button id="download-summary" class="btn-primary mr-2">Download Summary</button>
+            <button id="reset-dashboard" class="btn-danger">Reset Dashboard</button>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="bg-white p-4 rounded shadow">
+            <h2 class="font-medium mb-3">Weekly Activities</h2>
+            <div id="weekly-activities" class="w-full h-40 flex items-end gap-3"></div>
+          </div>
+
+          <div class="bg-white p-4 rounded shadow">
+            <h2 class="font-medium mb-3">Weekly Calories</h2>
+            <div id="weekly-calories" class="w-full h-40 flex items-end gap-3"></div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Modal root -->
+    <div id="modal-root"></div>
+
+    <!-- Component templates (loaded by JS) -->
+    <template id="navbar-template"></template>
+    <template id="modal-template"></template>
+    <template id="progress-circle-template"></template>
+
+    <!-- Scripts (modules will import data files) -->
+    <script type="module" src="./js/utilities/storage.js"></script>
+    <script type="module" src="./js/utilities/helpers.js"></script>
+    <script type="module" src="./js/utilities/modal.js"></script>
+    <script type="module" src="./js/utilities/navigation.js"></script>
+
+    <script type="module" src="./js/pages/dashboard.js"></script>
+    <script type="module" src="./js/pages/activity.js"></script>
+    <script type="module" src="./js/pages/meals.js"></script>
+    <script type="module" src="./js/pages/insights.js"></script>
+
+    <script type="module" src="./script.js"></script>
+  </body>
+</html>

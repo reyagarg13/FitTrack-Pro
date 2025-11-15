@@ -1,0 +1,11 @@
+/* Dashboard specific styles */
+#dashboard-cards .card{min-height:140px}
+.progress-circle-wrapper{display:flex;flex-direction:column;align-items:center}
+/* SVG-based progress with animated stroke-dashoffset */
+.progress-svg{width:110px;height:110px;display:block}
+.progress-svg .progress-bg{stroke:#eef2f7}
+.progress-svg .progress-fg{stroke:url(#grad); stroke-linecap:round; transform-origin:55px 55px; transform:rotate(-90deg); transition:stroke-dashoffset 700ms cubic-bezier(.2,.9,.2,1)}
+.progress-value-svg{font-weight:700;fill:#0f172a;font-size:14px}
+.progress-label{margin-top:6px}
+
+.progress-value{font-weight:700}

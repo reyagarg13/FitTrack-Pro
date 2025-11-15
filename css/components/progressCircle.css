@@ -1,0 +1,5 @@
+/* Progress circle small component styles */
+.progress-circle{position:relative}
+.progress-circle::after{content:'';position:absolute;inset:10px;border-radius:50%;background:white}
+.progress-value{position:relative;z-index:2}
+.progress-label{margin-top:6px}

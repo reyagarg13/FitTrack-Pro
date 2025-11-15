@@ -1,0 +1,4 @@
+/* Meals page styles */
+.meal-column{min-height:260px}
+.meal-column .meal-list li{display:flex;justify-content:space-between;align-items:center}
+.meal-column .meal-list li button{background:transparent;border:0;color:var(--danger)}
