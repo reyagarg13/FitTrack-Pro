@@ -7,8 +7,12 @@ let meals = {};
 
 function initMeals(){
   const stored = loadMeals();
-  meals = stored || JSON.parse(JSON.stringify(mealsData));
-  saveMeals(meals);
+  if(stored){
+    meals = stored;
+  } else {
+    meals = JSON.parse(JSON.stringify(mealsData));
+    saveMeals(meals);
+  }
 }
 
 function renderMeals(){

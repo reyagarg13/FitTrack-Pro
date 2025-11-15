@@ -53,8 +53,12 @@ function renderList(filter='all'){
 
 function initData(){
   const stored = loadActivities();
-  activities = stored || activitiesData.slice();
-  persist();
+  if(stored && stored.length > 0){
+    activities = stored;
+  } else {
+    activities = activitiesData.slice();
+    persist();
+  }
 }
 
 function attachEvents(){
