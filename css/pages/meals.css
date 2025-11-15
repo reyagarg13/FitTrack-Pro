@@ -1,80 +1,229 @@
-/* Meals page styles */
-.meal-column{
-  min-height:300px;
-  border:2px solid #f1f5f9;
-  transition:border-color 300ms, box-shadow 300ms;
-}
-.meal-column:hover{
-  border-color:#06b6d4;
-  box-shadow:0 8px 24px rgba(6,182,212,0.08);
-}
-.meal-column h2{
-  color:#0f172a;
-  border-bottom:2px solid #e2e8f0;
-  padding-bottom:0.5rem;
-  margin-bottom:1rem;
-}
-.meal-column[data-meal="Breakfast"] h2{border-bottom-color:#fbbf24}
-.meal-column[data-meal="Lunch"] h2{border-bottom-color:#f97316}
-.meal-column[data-meal="Dinner"] h2{border-bottom-color:#8b5cf6}
+/* Meals page styles - Enhanced with animations and micro-interactions */
 
-.meal-list{min-height:120px;max-height:300px;overflow-y:auto}
-.meal-list::-webkit-scrollbar{width:6px}
-.meal-list::-webkit-scrollbar-thumb{background:#cbd5e1;border-radius:3px}
-.meal-list::-webkit-scrollbar-track{background:#f1f5f9}
-
-.meal-list li{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  padding:0.6rem 0;
-  border-bottom:1px dashed #e2e8f0;
-  transition:background 200ms;
-}
-.meal-list li:hover{background:#f8fafc}
-.meal-list li:last-child{border-bottom:none}
-
-.meal-list li span:first-child{
-  font-weight:500;
-  color:#334155;
-}
-.meal-list li span:last-child{
-  display:flex;
-  align-items:center;
-  gap:0.5rem;
-  color:#64748b;
-  font-size:0.9rem;
+/* Meal columns with better hover states */
+.meal-column {
+  min-height: 320px;
+  border: 2px solid #f1f5f9;
+  transition: all 400ms cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
 }
 
-.meal-list li button{
-  background:transparent;
-  border:0;
-  color:var(--danger);
-  cursor:pointer;
-  padding:0.25rem 0.5rem;
-  border-radius:4px;
-  transition:background 200ms;
-  font-size:0.85rem;
-}
-.meal-list li button:hover{
-  background:#fee2e2;
-  color:#dc2626;
+.meal-column:hover {
+  border-color: #06b6d4;
+  box-shadow: 0 12px 32px rgba(6, 182, 212, 0.12), 0 4px 12px rgba(6, 182, 212, 0.08);
+  transform: translateY(-4px);
 }
 
-.meal-form{
-  border-top:2px dashed #e2e8f0;
-  padding-top:1rem;
-  margin-top:1rem;
+.meal-column h2 {
+  color: #0f172a;
+  border-bottom: 3px solid #e2e8f0;
+  padding-bottom: 0.75rem;
+  margin-bottom: 1rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  transition: border-color 300ms;
 }
 
-#total-calories{
-  color:#06b6d4;
-  font-size:2rem;
-  animation:pulse-calories 500ms ease-out;
+.meal-column[data-meal="Breakfast"] h2 { border-bottom-color: #fbbf24; }
+.meal-column[data-meal="Lunch"] h2 { border-bottom-color: #f97316; }
+.meal-column[data-meal="Dinner"] h2 { border-bottom-color: #8b5cf6; }
+
+/* Enhanced meal list scrolling */
+.meal-list {
+  min-height: 140px;
+  max-height: 320px;
+  overflow-y: auto;
+  scroll-behavior: smooth;
+}
+
+.meal-list::-webkit-scrollbar { width: 8px; }
+.meal-list::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #cbd5e1, #94a3b8);
+  border-radius: 4px;
+  transition: background 300ms;
+}
+.meal-list::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #94a3b8, #64748b);
+}
+.meal-list::-webkit-scrollbar-track {
+  background: #f8fafc;
+  border-radius: 4px;
+}
+
+/* Individual meal items with slide-in animation */
+.meal-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 0.5rem;
+  border-bottom: 1px dashed #e2e8f0;
+  transition: all 300ms cubic-bezier(0.4, 0, 0.2, 1);
+  border-radius: 6px;
+  margin-bottom: 4px;
+}
+
+.meal-item:hover {
+  background: linear-gradient(90deg, #f8fafc 0%, #f1f5f9 100%);
+  transform: translateX(4px);
+  border-bottom-color: #cbd5e1;
+  box-shadow: 0 2px 8px rgba(6, 182, 212, 0.06);
+}
+
+.meal-item:last-child { border-bottom: none; }
+
+/* Highlight newly added meals */
+.meal-highlight {
+  animation: highlightPulse 2000ms ease-out;
+  background: linear-gradient(90deg, #ecfeff 0%, #cffafe 100%);
+}
+
+@keyframes highlightPulse {
+  0%, 100% { background: linear-gradient(90deg, #ecfeff 0%, #cffafe 100%); }
+  50% { background: linear-gradient(90deg, #cffafe 0%, #a5f3fc 100%); }
+}
+
+/* Meal name and calorie styling */
+.meal-name {
+  font-weight: 600;
+  color: #1e293b;
+  transition: color 300ms;
+}
+
+.meal-item:hover .meal-name {
+  color: #0891b2;
+}
+
+.meal-calories-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+}
+
+.meal-calories {
+  color: #0891b2;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Delete button with enhanced hover */
+.meal-delete-btn {
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+  padding: 0.25rem 0.5rem;
+  border-radius: 6px;
+  transition: all 250ms cubic-bezier(0.4, 0, 0.2, 1);
+  font-size: 1rem;
+  opacity: 0.6;
+}
+
+.meal-delete-btn:hover {
+  background: #fee2e2;
+  transform: scale(1.25) rotate(10deg);
+  opacity: 1;
+  box-shadow: 0 2px 8px rgba(239, 68, 68, 0.2);
+}
+
+/* Meal form styling */
+.meal-form {
+  border-top: 2px dashed #e2e8f0;
+  padding-top: 1.25rem;
+  margin-top: 1.25rem;
+}
+
+/* Validation error styling */
+.validation-error {
+  animation: shake 400ms ease-out;
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-8px); }
+  75% { transform: translateX(8px); }
+}
+
+/* Total calories with pulse animation */
+#total-calories {
+  color: #06b6d4;
+  font-size: 2.5rem;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  text-shadow: 0 2px 12px rgba(6, 182, 212, 0.2);
+  transition: all 300ms;
 }
 
 @keyframes pulse-calories {
-  0%{transform:scale(1)}
-  50%{transform:scale(1.1)}
-  100%{transform:scale(1)}
+  0% { transform: scale(1); }
+  40% { transform: scale(1.15); color: #0891b2; }
+  100% { transform: scale(1); }
+}
+
+/* Slide in from left animation */
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Slide out to right animation */
+@keyframes slideOutRight {
+  from {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateX(24px);
+  }
+}
+
+/* Fade in animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Fade out animation */
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+/* Empty state styling */
+.empty-state {
+  text-align: center;
+  padding: 2rem 1rem !important;
+  color: #94a3b8;
+  font-style: italic;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .meal-column {
+    min-height: 280px;
+  }
+  
+  .meal-list {
+    max-height: 260px;
+  }
+  
+  #total-calories {
+    font-size: 2rem;
+  }
 }

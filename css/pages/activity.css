@@ -1,57 +1,257 @@
-/* Activity page styles */
-#activity-list{min-height:200px}
-#activity-list li{
-  background:white;
-  padding:1rem;
-  border-radius:10px;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  box-shadow:0 2px 8px rgba(2,6,23,0.06);
-  transition:transform 200ms, box-shadow 200ms;
-  border-left:4px solid transparent;
-}
-#activity-list li:hover{
-  transform:translateX(4px);
-  box-shadow:0 4px 12px rgba(2,6,23,0.1);
-}
-#activity-list li[data-time="Morning"]{border-left-color:#fbbf24}
-#activity-list li[data-time="Afternoon"]{border-left-color:#f97316}
-#activity-list li[data-time="Evening"]{border-left-color:#8b5cf6}
+/* Activity page styles - Enhanced with sliding animations and badges */
 
-.activity-meta{font-size:0.85rem;color:#64748b;margin-top:0.25rem}
-.activity-icon{
-  width:40px;
-  height:40px;
-  border-radius:50%;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  background:linear-gradient(135deg, #06b6d4, #0891b2);
-  color:white;
-  font-weight:bold;
-  margin-right:1rem;
+#activity-list {
+  min-height: 240px;
+  transition: opacity 300ms ease, transform 300ms ease;
 }
 
-#activity-filter{
-  border:1px solid #e2e8f0;
-  padding:0.5rem 1rem;
-  border-radius:8px;
-  background:white;
-  cursor:pointer;
-  transition:border-color 200ms;
+/* Activity card with enhanced hover and slide effects */
+.activity-card {
+  background: linear-gradient(135deg, #ffffff 0%, #fafbfc 100%);
+  padding: 1.25rem;
+  border-radius: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 2px 8px rgba(2, 6, 23, 0.06), 0 1px 4px rgba(0, 0, 0, 0.04);
+  transition: all 400ms cubic-bezier(0.4, 0, 0.2, 1);
+  border-left: 5px solid transparent;
+  position: relative;
+  overflow: hidden;
 }
-#activity-filter:hover{border-color:#06b6d4}
-#activity-filter:focus{outline:none;border-color:#06b6d4;box-shadow:0 0 0 3px rgba(6,182,212,0.1)}
 
-.empty-state{
-  text-align:center;
-  padding:3rem 1rem;
-  color:#94a3b8;
+.activity-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, rgba(6, 182, 212, 0.5), transparent);
+  transform: scaleX(0);
+  transition: transform 400ms cubic-bezier(0.4, 0, 0.2, 1);
 }
-.empty-state svg{
-  width:64px;
-  height:64px;
-  margin:0 auto 1rem;
-  opacity:0.5;
+
+.activity-card:hover::before {
+  transform: scaleX(1);
+}
+
+.activity-card:hover {
+  transform: translateX(8px) translateY(-4px);
+  box-shadow: 0 12px 32px rgba(6, 182, 212, 0.15), 0 4px 12px rgba(2, 6, 23, 0.08);
+}
+
+.activity-card[data-time="Morning"] {
+  border-left-color: #fbbf24;
+}
+
+.activity-card[data-time="Afternoon"] {
+  border-left-color: #f97316;
+}
+
+.activity-card[data-time="Evening"] {
+  border-left-color: #8b5cf6;
+}
+
+/* Activity metadata */
+.activity-meta {
+  font-size: 0.875rem;
+  color: #64748b;
+  margin-top: 0.375rem;
+  font-weight: 500;
+}
+
+/* Activity icon with bounce animation */
+.activity-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #06b6d4 0%, #0891b2 100%);
+  color: white;
+  font-weight: bold;
+  font-size: 1.25rem;
+  margin-right: 1.25rem;
+  box-shadow: 0 4px 12px rgba(6, 182, 212, 0.3);
+  transition: all 300ms cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+.activity-card:hover .activity-icon {
+  transform: scale(1.15) rotate(10deg);
+  box-shadow: 0 6px 20px rgba(6, 182, 212, 0.5);
+}
+
+@keyframes iconBounce {
+  0% {
+    opacity: 0;
+    transform: scale(0.3) rotate(-45deg);
+  }
+  60% {
+    transform: scale(1.1) rotate(5deg);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
+  }
+}
+
+/* Time of day badges */
+.time-badge {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  transition: all 250ms;
+}
+
+.badge-morning {
+  background-color: rgba(251, 191, 36, 0.15);
+  color: #fbbf24;
+  border: 1px solid #fbbf24;
+}
+
+.badge-afternoon {
+  background-color: rgba(249, 115, 22, 0.15);
+  color: #f97316;
+  border: 1px solid #f97316;
+}
+
+.badge-evening {
+  background-color: rgba(139, 92, 246, 0.15);
+  color: #8b5cf6;
+  border: 1px solid #8b5cf6;
+}
+
+.time-badge:hover {
+  transform: scale(1.05);
+  box-shadow: 0 2px 8px currentColor;
+}
+
+/* Delete button */
+.btn-delete {
+  background: transparent;
+  border: 1px solid #e2e8f0;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.875rem;
+  font-weight: 600;
+  transition: all 300ms cubic-bezier(0.4, 0, 0.2, 1);
+  color: #64748b;
+}
+
+.btn-delete:hover {
+  background: #fee2e2;
+  color: #dc2626;
+  border-color: #dc2626;
+  transform: scale(1.1);
+  box-shadow: 0 4px 12px rgba(220, 38, 38, 0.2);
+}
+
+/* Filter dropdown */
+#activity-filter {
+  border: 2px solid #e2e8f0;
+  padding: 0.625rem 1.25rem;
+  border-radius: 10px;
+  background: white;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 300ms cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+}
+
+#activity-filter:hover {
+  border-color: #06b6d4;
+  box-shadow: 0 4px 12px rgba(6, 182, 212, 0.15);
+  transform: translateY(-2px);
+}
+
+#activity-filter:focus {
+  outline: none;
+  border-color: #06b6d4;
+  box-shadow: 0 0 0 4px rgba(6, 182, 212, 0.15);
+}
+
+/* Empty state */
+.empty-state {
+  text-align: center;
+  padding: 4rem 1.5rem;
+  color: #94a3b8;
+}
+
+.empty-state svg {
+  width: 72px;
+  height: 72px;
+  margin: 0 auto 1.5rem;
+  opacity: 0.4;
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+/* Slide in from left animation */
+@keyframes slideInFromLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-32px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Slide out to right animation */
+@keyframes slideOutToRight {
+  from {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateX(32px);
+  }
+}
+
+/* Pulse glow animation */
+@keyframes pulse-glow {
+  0%, 100% {
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+  }
+  50% {
+    box-shadow: 0 4px 16px rgba(6, 182, 212, 0.25);
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 640px) {
+  .activity-card {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+  
+  .activity-icon {
+    width: 40px;
+    height: 40px;
+    font-size: 1rem;
+    margin-right: 1rem;
+  }
+  
+  .btn-delete {
+    width: 100%;
+    text-align: center;
+  }
 }

@@ -1,66 +1,220 @@
-/* Insights page styles */
-.insights-chart-container{
-  background:white;
-  padding:1.5rem;
-  border-radius:10px;
-  box-shadow:0 4px 12px rgba(2,6,23,0.06);
-}
-.insights-chart-container h2{
-  font-size:1.125rem;
-  font-weight:600;
-  color:#0f172a;
-  margin-bottom:1.5rem;
-  padding-bottom:0.5rem;
-  border-bottom:2px solid #e2e8f0;
-}
-.insights-chart-bar{
-  width:100%;
-  background:#f1f5f9;
-  border-radius:8px;
-  display:flex;
-  align-items:flex-end;
-  padding:0.5rem;
-  gap:0.5rem;
-}
-.insights-chart-bar > div{
-  flex:1;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  cursor:pointer;
-  transition:transform 200ms;
-}
-.insights-chart-bar > div:hover{
-  transform:translateY(-4px);
-}
-.insights-chart-bar > div > div:first-child{
-  background:linear-gradient(180deg,#06b6d4,#0891b2);
-  border-radius:6px 6px 0 0;
-  width:100%;
-  max-width:40px;
-  transition:background 300ms;
-  position:relative;
-}
-.insights-chart-bar > div:hover > div:first-child{
-  background:linear-gradient(180deg,#0891b2,#06b6d4);
-}
-.insights-chart-label{
-  font-size:0.75rem;
-  color:#475569;
-  text-align:center;
-  margin-top:0.5rem;
-  font-weight:500;
+/* Insights page styles - Enhanced with animations and better visuals */
+
+/* Chart container with gradient background */
+.insights-chart-container {
+  background: linear-gradient(to bottom, #f8fafc 0%, #ffffff 100%);
+  padding: 1.5rem;
+  border-radius: 16px;
+  box-shadow: 0 4px 16px rgba(2, 6, 23, 0.08), 0 2px 8px rgba(6, 182, 212, 0.04);
+  border: 2px solid #e2e8f0;
+  transition: all 400ms cubic-bezier(0.4, 0, 0.2, 1);
+  min-height: 300px; /* Ensure container has minimum height */
 }
 
-#download-summary{
-  transition:all 200ms;
-}
-#download-summary:hover{
-  transform:translateY(-2px);
-  box-shadow:0 8px 20px rgba(6,182,212,0.2);
+.insights-chart-container:hover {
+  box-shadow: 0 8px 24px rgba(2, 6, 23, 0.12), 0 4px 12px rgba(6, 182, 212, 0.08);
+  border-color: #cbd5e1;
 }
 
-#reset-dashboard:hover{
-  background:#dc2626;
-  transform:translateY(-2px);
+.insights-chart-container h2 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 3px solid transparent;
+  border-image: linear-gradient(90deg, #06b6d4, #0891b2, transparent) 1;
+  letter-spacing: -0.01em;
+}
+
+/* Bar wrapper with smooth hover */
+.insights-bar-wrapper {
+  transition: transform 300ms cubic-bezier(0.4, 0, 0.2, 1);
+  transform-origin: bottom center;
+  height: 100%; /* CRITICAL: Must be 100% of parent container height */
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: flex-end !important;
+}
+
+.insights-bar-wrapper:hover {
+  transform: translateY(-6px);
+}
+
+/* Individual chart bars with enhanced gradients */
+.insights-chart-bar {
+  transition: all 700ms cubic-bezier(0.4, 0, 0.2, 1), 
+              transform 300ms cubic-bezier(0.4, 0, 0.2, 1);
+  transform-origin: bottom center;
+  will-change: height, box-shadow;
+  position: relative;
+  min-height: 2px; /* Ensure bars are visible even at low percentages */
+  display: block; /* Ensure bars display as block elements */
+}
+
+/* Glow effect on bar hover */
+.insights-chart-bar::before {
+  content: '';
+  position: absolute;
+  top: -6px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 120%;
+  height: 10px;
+  background: radial-gradient(ellipse at center, rgba(34, 211, 238, 0.6) 0%, transparent 70%);
+  opacity: 0;
+  transition: opacity 300ms;
+}
+
+.insights-chart-bar:hover::before {
+  opacity: 1;
+}
+
+/* Value labels with smooth animation */
+.insights-value-label {
+  font-variant-numeric: tabular-nums;
+  transition: opacity 500ms cubic-bezier(0.4, 0, 0.2, 1), 
+              transform 300ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.insights-bar-wrapper:hover .insights-value-label {
+  transform: translateY(-3px) scale(1.15);
+  color: #0891b2 !important;
+  font-weight: 800;
+}
+
+/* Quick Stats Cards */
+.insights-stat-card {
+  will-change: transform, box-shadow;
+  cursor: pointer;
+}
+
+.insights-stat-card:hover {
+  box-shadow: 0 12px 32px rgba(6, 182, 212, 0.18), 
+              0 0 0 3px rgba(6, 182, 212, 0.12);
+}
+
+.insights-stat-card .hover-icon {
+  transition: transform 400ms cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+/* Download button with ripple effect */
+#download-summary {
+  transition: all 300ms cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+#download-summary::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.4);
+  transform: translate(-50%, -50%);
+  transition: width 600ms, height 600ms;
+}
+
+#download-summary:hover::before {
+  width: 300px;
+  height: 300px;
+}
+
+#download-summary:hover {
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 0 10px 28px rgba(6, 182, 212, 0.35);
+}
+
+/* Reset button with danger state */
+#reset-dashboard {
+  transition: all 300ms cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+#reset-dashboard::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.3);
+  transform: translate(-50%, -50%);
+  transition: width 600ms, height 600ms;
+}
+
+#reset-dashboard:hover::before {
+  width: 300px;
+  height: 300px;
+}
+
+#reset-dashboard:hover {
+  background: #dc2626;
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 0 10px 28px rgba(239, 68, 68, 0.35);
+}
+
+/* No data state animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Fade in up for stat cards */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive mobile optimizations */
+@media (max-width: 640px) {
+  .insights-chart-container {
+    padding: 1rem;
+  }
+  
+  .insights-chart-container h2 {
+    font-size: 1rem;
+  }
+  
+  .insights-bar-wrapper {
+    min-width: 28px !important;
+    max-width: 42px !important;
+  }
+  
+  .insights-value-label {
+    font-size: 9px;
+  }
+  
+  .insights-stat-card {
+    padding: 1rem !important;
+  }
+  
+  .insights-stat-card .text-4xl {
+    font-size: 2rem;
+  }
+  
+  .stat-value {
+    font-size: 1.5rem !important;
+  }
 }

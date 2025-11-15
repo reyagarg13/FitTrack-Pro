@@ -7,48 +7,95 @@ import { el, elAll } from '../utilities/helpers.js';
 
 let activities = [];
 
-function persist(){ saveActivities(activities); }
+/**
+ * Persists activities and updates navbar calorie total
+ */
+function persist(){ 
+  saveActivities(activities);
+  updateNavbarCalories();
+}
 
+/**
+ * Updates the navbar with total calories burned
+ */
+function updateNavbarCalories(){
+  const totalCalories = activities.reduce((sum, a) => sum + Number(a.calories || 0), 0);
+  const navbarCaloriesEl = document.querySelector('[data-navbar-calories]');
+  if(navbarCaloriesEl){
+    navbarCaloriesEl.textContent = `🔥 ${totalCalories} kcal burned`;
+    navbarCaloriesEl.style.animation = 'pulse-glow 600ms ease-out';
+  }
+}
+
+/**
+ * Renders activity list with slide animations and color-coded badges
+ * @param {string} filter - Filter type: 'all', 'Morning', 'Afternoon', 'Evening'
+ */
 function renderList(filter='all'){
   const ul = document.getElementById('activity-list');
-  ul.innerHTML = '';
-  const list = activities.filter(a=> filter==='all' ? true : a.timeOfDay===filter);
   
-  if(list.length === 0){
-    ul.innerHTML = `
-      <div class="empty-state">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <circle cx="12" cy="12" r="10"></circle>
-          <path d="M12 6v6l4 2"></path>
-        </svg>
-        <div class="text-lg font-medium">No activities found</div>
-        <div class="text-sm mt-1">Add your first activity to get started!</div>
-      </div>
-    `;
-    return;
-  }
+  // Fade out animation before re-render
+  ul.style.opacity = '0';
+  ul.style.transform = 'translateY(10px)';
   
-  list.forEach(a=>{
-    const li = document.createElement('li');
-    li.setAttribute('data-time', a.timeOfDay);
+  setTimeout(() => {
+    ul.innerHTML = '';
+    const list = activities.filter(a=> filter==='all' ? true : a.timeOfDay===filter);
     
-    // Get icon based on time of day
-    const iconEmoji = a.timeOfDay === 'Morning' ? '🌅' : a.timeOfDay === 'Afternoon' ? '☀️' : '🌙';
-    
-    li.innerHTML = `
-      <div class="flex items-center flex-1">
-        <div class="activity-icon">${iconEmoji}</div>
-        <div>
-          <div class="font-semibold text-slate-800">${a.name}</div>
-          <div class="activity-meta">${a.duration} min • ${a.calories} kcal • <span class="font-medium">${a.timeOfDay}</span></div>
+    if(list.length === 0){
+      ul.innerHTML = `
+        <div class="empty-state" style="animation: fadeIn 500ms ease-out;">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"></circle>
+            <path d="M12 6v6l4 2"></path>
+          </svg>
+          <div class="text-lg font-medium">No activities found</div>
+          <div class="text-sm mt-1">Add your first activity to get started!</div>
         </div>
-      </div>
-      <div>
-        <button class="btn-secondary hover:bg-red-50 hover:text-red-600 transition-colors" data-id="${a.id}">Delete</button>
-      </div>
-    `;
-    ul.appendChild(li);
-  });
+      `;
+      ul.style.opacity = '1';
+      ul.style.transform = 'translateY(0)';
+      return;
+    }
+    
+    list.forEach((a, idx) => {
+      const li = document.createElement('li');
+      li.className = 'activity-card';
+      li.setAttribute('data-time', a.timeOfDay);
+      li.style.animation = `slideInFromLeft 400ms cubic-bezier(0.4, 0, 0.2, 1) ${idx * 50}ms backwards`;
+      
+      // Get icon and badge color based on time of day
+      const timeConfig = {
+        'Morning': { icon: '🌅', badge: 'badge-morning', color: '#fbbf24' },
+        'Afternoon': { icon: '☀️', badge: 'badge-afternoon', color: '#f97316' },
+        'Evening': { icon: '🌙', badge: 'badge-evening', color: '#8b5cf6' }
+      };
+      const config = timeConfig[a.timeOfDay] || timeConfig['Morning'];
+      
+      li.innerHTML = `
+        <div class="flex items-center flex-1">
+          <div class="activity-icon" style="animation: iconBounce 600ms ease-out ${idx * 50}ms backwards;">${config.icon}</div>
+          <div class="flex-1">
+            <div class="font-bold text-slate-900 mb-1">${a.name}</div>
+            <div class="activity-meta">
+              ${a.duration} min • <strong class="text-orange-600">${a.calories} kcal</strong> • 
+              <span class="time-badge ${config.badge}" style="background-color: ${config.color}20; color: ${config.color}; border: 1px solid ${config.color};">${a.timeOfDay}</span>
+            </div>
+          </div>
+        </div>
+        <div>
+          <button class="btn-delete hover:bg-red-100 hover:text-red-700 transition-all duration-300 hover:scale-110" data-id="${a.id}" title="Delete activity">🗑️ Delete</button>
+        </div>
+      `;
+      ul.appendChild(li);
+    });
+    
+    // Fade in after content loaded
+    setTimeout(() => {
+      ul.style.opacity = '1';
+      ul.style.transform = 'translateY(0)';
+    }, 50);
+  }, 200);
 }
 
 function initData(){
@@ -64,8 +111,14 @@ function initData(){
   }
 }
 
+/**
+ * Attaches event listeners for filter and delete actions
+ */
 function attachEvents(){
-  document.getElementById('activity-filter').addEventListener('change',(e)=>{
+  // Filter dropdown with smooth transition
+  const filterSelect = document.getElementById('activity-filter');
+  filterSelect.addEventListener('change',(e)=>{
+    filterSelect.style.animation = 'pulse-glow 300ms ease-out';
     renderList(e.target.value);
   });
 
@@ -73,12 +126,35 @@ function attachEvents(){
     showAddActivityModal();
   });
 
+  // Delete button with confirmation
   document.getElementById('activity-list').addEventListener('click',(e)=>{
-    if(e.target.tagName==='BUTTON'){
-      const id = e.target.dataset.id;
-      activities = activities.filter(a=> a.id !== id);
-      persist();
-      renderList(document.getElementById('activity-filter').value);
+    if(e.target.tagName==='BUTTON' || e.target.closest('.btn-delete')){
+      const button = e.target.tagName === 'BUTTON' ? e.target : e.target.closest('.btn-delete');
+      const id = button.dataset.id;
+      const activity = activities.find(a => a.id === id);
+      
+      if(activity && confirm(`Delete "${activity.name}"?\n\nThis will remove ${activity.calories} kcal from your total.`)){
+        // Animate removal
+        const card = button.closest('.activity-card');
+        if(card){
+          card.style.animation = 'slideOutToRight 300ms ease-out forwards';
+          setTimeout(() => {
+            activities = activities.filter(a=> a.id !== id);
+            persist();
+            renderList(filterSelect.value);
+            
+            // Show toast notification
+            const event = new CustomEvent('show-toast', {
+              detail: { message: `🗑️ "${activity.name}" deleted`, type: 'info' }
+            });
+            window.dispatchEvent(event);
+          }, 300);
+        } else {
+          activities = activities.filter(a=> a.id !== id);
+          persist();
+          renderList(filterSelect.value);
+        }
+      }
     }
   });
 }
@@ -175,4 +251,5 @@ document.addEventListener('DOMContentLoaded', ()=>{
   initData();
   renderList();
   attachEvents();
+  updateNavbarCalories(); // Update navbar with total calories
 });
